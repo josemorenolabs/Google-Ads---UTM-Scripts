@@ -1,0 +1,25 @@
+function main() {
+  // Get all campaigns (Search, Display, Video)
+  var campaigns = AdsApp.campaigns().get();
+  updateCustomParameters(campaigns);
+
+  // Get all video campaigns
+  var videoCampaigns = AdsApp.videoCampaigns().get();
+  updateCustomParameters(videoCampaigns);
+}
+
+function updateCustomParameters(campaigns) {
+  while (campaigns.hasNext()) {
+    var campaign = campaigns.next();
+    var campaignName = campaign.getName();
+
+    // Set the custom parameter {_campaignname} to the campaign's name
+    campaign
+      .urls()
+      .setCustomParameters({
+        campaignname: campaignName
+      });
+
+    Logger.log('Updated {_campaignname} for campaign: ' + campaignName);
+  }
+}
